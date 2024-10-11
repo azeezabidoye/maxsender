@@ -9,8 +9,20 @@
 }
 
 #title {
-  font-family: "Montserrat", sans-serif;
+  font-family: "Permanent Marker", cursive;
   font-size: 1em;
   font-style: normal;
   font-weight: 400;
+}
+
+#sub-title {
+  font-size: 1.5em;
+}
+
+#sub-title span {
+  border-bottom: 5px solid #085ed6;
+}
+
+#CSVImporter_Importer {
+  margin-top: 3em;
 }
