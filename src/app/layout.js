@@ -1,3 +1,5 @@
+import "bootstrap/dist/css/bootstrap.min.css";
+import "./style.css";
 import localFont from "next/font/local";
 import "./globals.css";
 
@@ -20,6 +22,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
+      <head></head>
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         {children}
       </body>
