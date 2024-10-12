@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.25;
 
-contract Multisend {
+contract Maxsender {
 
     // Payable function to allow Ether transfer
     function sendToken(address payable[] calldata recipients, uint[] calldata amounts) external payable {
