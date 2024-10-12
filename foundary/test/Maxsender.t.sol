@@ -2,23 +2,22 @@
 pragma solidity ^0.8.13;
 
 import {Test, console} from "forge-std/Test.sol";
-import {Counter} from "../src/Counter.sol";
+import {Maxsender} from "../src/Maxsender.sol";
 
-contract CounterTest is Test {
-    Counter public counter;
+contract MaxsenderTest is Test {
+    Maxsender public maxsender;
 
     function setUp() public {
-        counter = new Counter();
-        counter.setNumber(0);
+        maxsender = new Maxsender();
     }
 
-    function test_Increment() public {
-        counter.increment();
-        assertEq(counter.number(), 1);
+    function test_sendToken() public {
+        address payable[] memory recipients = new address payable[](2);
+        uint[] memory amounts = new uint[](2);
+        recipients[0] = payable(0x6c5fa1b41990f4ee402984Bcc8Bf6F4CB769fE74);
+        recipients[1] = payable(0x55829bC84132E1449b62607B1c7bbC012f0326Ac);
+        amounts[0] = 100;   //wei
+        amounts[1] = 200;   //wei
     }
 
-    function testFuzz_SetNumber(uint256 x) public {
-        counter.setNumber(x);
-        assertEq(counter.number(), x);
-    }
 }
