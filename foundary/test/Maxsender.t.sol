@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: UNLICENSED
-pragma solidity ^0.8.13;
+pragma solidity ^0.8.25;
 
 import {Test, console} from "forge-std/Test.sol";
 import {Maxsender} from "../src/Maxsender.sol";
@@ -18,6 +18,9 @@ contract MaxsenderTest is Test {
         recipients[1] = payable(0x55829bC84132E1449b62607B1c7bbC012f0326Ac);
         amounts[0] = 100;   //wei
         amounts[1] = 200;   //wei
+        maxsender.sendToken{value: 300}(recipients, amounts);
+        assertEq(address(recipients[0]).balance, amounts[0]);
+        assertEq(address(recipients[1]).balance, amounts[1]);
     }
 
 }
