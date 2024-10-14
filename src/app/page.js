@@ -11,7 +11,7 @@ export default function Home() {
                 MAXSENDER
               </h1>
               <p id="sub-title" className="mt-4 fw-bold">
-                Send many payments <span>in just one transaction</span>
+                Send many payments <br /> <span>in just one transaction</span>
               </p>
             </div>
           </div>
