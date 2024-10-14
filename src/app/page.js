@@ -22,7 +22,7 @@ export default function Home() {
             >
               <ImporterField name="recipient" label="recipient" />
               <ImporterField name="amount" label="amount" />
-              <ImporterField name="currency" label="currency" />
+              <ImporterField name="asset" label="asset" />
             </Importer>
           </div>
         </div>
