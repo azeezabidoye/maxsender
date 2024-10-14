@@ -4,6 +4,13 @@ import { Importer, ImporterField } from "react-csv-importer";
 
 export default function Home() {
   const [payments, setPayments] = useState(undefined);
+  const [sending, setSending] = useState(false);
+
+  const sendPayments = async () => {
+    console.log("Sending payments...");
+    console.log(payments);
+    console.log(payments.length);
+  };
   return (
     <>
       <div className="container-fluid mt-5 d-flex justify-content-center">
@@ -26,6 +33,15 @@ export default function Home() {
               <ImporterField name="amount" label="amount" />
               <ImporterField name="asset" label="asset" />
             </Importer>
+            <div className="text-center">
+              <button
+                className="btn btn-primary mt-5"
+                onClick={sendPayments}
+                disabled={sending || typeof payments === "undefined"}
+              >
+                Send transactions
+              </button>
+            </div>
           </div>
         </div>
       </div>
