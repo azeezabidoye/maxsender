@@ -1,7 +1,9 @@
 "use client";
+import { useState } from "react";
 import { Importer, ImporterField } from "react-csv-importer";
 
 export default function Home() {
+  const [payments, setPayments] = useState(undefined);
   return (
     <>
       <div className="container-fluid mt-5 d-flex justify-content-center">
@@ -16,7 +18,7 @@ export default function Home() {
               </p>
             </div>
             <Importer
-              dataHandler={(rows) => console.log(rows)}
+              dataHandler={(rows) => setPayments(rows)}
               defaultNoHeader={false} // optional, keeps "data has headers" checkbox off by default
               restartable={false} // optional, lets user choose to upload another file when import is complete
             >
