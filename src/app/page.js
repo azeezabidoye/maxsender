@@ -1,15 +1,28 @@
 "use client";
 import { useState } from "react";
 import { Importer, ImporterField } from "react-csv-importer";
+import { ethers } from "ethers";
+
+const blockchainExplorerUrl = {
+  2810: "https://rpc-quicknode-holesky.morphl2.io",
+};
 
 export default function Home() {
   const [payments, setPayments] = useState(undefined);
   const [sending, setSending] = useState(false);
+  const [blockchainExplorer, setBlockchainExplorer] = useState(undefined);
 
   const sendPayments = async () => {
-    console.log("Sending payments...");
-    console.log(payments);
-    console.log(payments.length);
+    // Connect to Metamask
+    const provider = new ethers.BrowserProvider(windows.ethereum);
+    const signer = await provider.getSigner();
+    const { chainID } = await provider.getNetwork();
+    setBlockchainExplorer(blockchainExplorerUrl[chainID.toString()]);
+
+    // Show feedback to users
+    setSending(true);
+    // Format arguements for smart contract => Convert CSV row to column
+    // Send transaction
   };
   return (
     <>
