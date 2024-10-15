@@ -22,6 +22,19 @@ export default function Home() {
     // Show feedback to users
     setSending(true);
     // Format arguements for smart contract => Convert CSV row to column
+    const { recipients, amounts, total } = payments.reduce(
+      (acc, val) => {
+        acc.recipients.push(val.recipients);
+        acc.amounts.push(val.amounts);
+        acc.total += parseInt(val.amounts);
+        return acc;
+      },
+      {
+        recipients: [],
+        amounts: [],
+        total: 0,
+      }
+    );
     // Send transaction
   };
   return (
@@ -55,6 +68,11 @@ export default function Home() {
                 Send transactions
               </button>
             </div>
+            {sending && (
+              <div className="alert alert-info mt-4 mb-0">
+                Please wait while your transaction is being processed...
+              </div>
+            )}
           </div>
         </div>
       </div>
