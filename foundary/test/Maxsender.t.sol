@@ -8,6 +8,7 @@ contract MaxsenderTest is Test {
     Maxsender public maxsender;
 
     function setUp() public {
+        // Deploy the contract before each test
         maxsender = new Maxsender();
     }
 
