@@ -17,6 +17,7 @@ export default function Home() {
   const [sending, setSending] = useState(false);
   const [blockchainExplorer, setBlockchainExplorer] = useState(undefined);
   const [error, setError] = useState(false);
+  const [transaction, setTransaction] = useState(false);
 
   const sendPayments = async () => {
     // Connect to Metamask
@@ -44,6 +45,13 @@ export default function Home() {
     // Send transaction
     const maxsenderContract = new Contract(contractAddress, abi, signer);
     try {
+      const transaction = await maxsenderContract.sendToken(
+        recipients,
+        amounts,
+        { Value: total }
+      );
+      const transactionReceipt = await transaction.wait();
+      setTransaction(transactionReceipt.hash);
     } catch (error) {
       setError(true);
     }
