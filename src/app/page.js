@@ -53,6 +53,7 @@ export default function Home() {
       const transactionReceipt = await transaction.wait();
       setTransaction(transactionReceipt.hash);
     } catch (error) {
+      console.log(error);
       setError(true);
     }
   };
@@ -92,8 +93,19 @@ export default function Home() {
                 Please wait while your transaction is being processed...
               </div>
             )}
+            {transaction && (
+              <div className="alert alert-success mt-4 mb-0">
+                Congrats! Transaction is succesful. <br />
+                <a
+                  href={`${blockchainExplorerUrl}/${transaction}`}
+                  target="_blank"
+                >{`${transaction.subStr(0, 20)}`}</a>
+              </div>
+            )}
             {error && (
-              <div>Oops...there was an error. Please try agaiamn later!</div>
+              <div className="alert alert-danger mt-4 mb-0">
+                Oops...there was an error. Please try agaiamn later!
+              </div>
             )}
           </div>
         </div>
