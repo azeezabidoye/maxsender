@@ -99,7 +99,7 @@ export default function Home() {
                 <a
                   href={`${blockchainExplorerUrl}/${transaction}`}
                   target="_blank"
-                >{`${transaction.subStr(0, 20)}`}</a>
+                >{`${transaction.subStr(0, 20)}...`}</a>
               </div>
             )}
             {error && (
