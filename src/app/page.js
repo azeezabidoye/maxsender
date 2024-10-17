@@ -19,6 +19,8 @@ export default function Home() {
   const [error, setError] = useState(false);
   const [transaction, setTransaction] = useState(false);
 
+  console.log(payments);
+
   const sendPayments = async () => {
     // Connect to Metamask
     const provider = new ethers.BrowserProvider(window.ethereum);
@@ -32,33 +34,33 @@ export default function Home() {
     // Show feedback to users
     setSending(true);
     // Format arguements for smart contract => Convert CSV row to column
-    const { recipients, amounts, total } = payments.reduce(
+    const { recipient, amount, total } = payments.reduce(
       (acc, val) => {
-        acc.recipients.push(val.recipients);
-        acc.amounts.push(val.amounts);
-        acc.total += parseInt(val.amounts);
+        acc.recipient.push(val.recipient);
+        acc.amount.push(val.amount);
+        acc.total += Number(val.amount);
         return acc;
       },
       {
-        recipients: [],
-        amounts: [],
+        recipient: [],
+        amount: [],
         total: 0,
       }
     );
+
+    console.log(recipient);
     // Send transaction
     const maxsenderContract = new Contract(
       contractAddress,
       contractABI,
       signer
     );
+
     try {
-      const transaction = await maxsenderContract.sendToken(
-        recipients,
-        amounts,
-        { value: total }
-      );
-      const transactionReceipt = await transaction.wait(1);
-      console.log(transactionReceipt);
+      const transaction = await maxsenderContract.sendToken(recipient, amount, {
+        value: total,
+      });
+      const transactionReceipt = await transaction.wait();
       setTransaction(transactionReceipt.hash);
     } catch (error) {
       console.log(error);
@@ -105,9 +107,9 @@ export default function Home() {
               <div className="alert alert-success mt-4 mb-0">
                 Congrats! Transaction is succesful. <br />
                 <a
-                  href={`${blockchainExplorerUrl}/${transaction}`}
+                  href={`${blockchainExplorer}/${transaction}`}
                   target="_blank"
-                >{`${transaction.subStr(0, 20)}...`}</a>
+                >{`${transaction.substr(0, 20)}...`}</a>
               </div>
             )}
             {error && (
