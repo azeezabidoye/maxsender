@@ -1,7 +1,12 @@
 "use client";
 import { useState } from "react";
 import { Importer, ImporterField } from "react-csv-importer";
-import { ethers } from "ethers";
+import { ethers, Contract } from "ethers";
+
+// Import Contract ABI
+import { abi } from "../../foundary/out/Maxsender.sol/Maxsender.json";
+
+const contractAddress = "0x279AD96a13998dE7E6511f6F5AB9bD358b1453Ca";
 
 const blockchainExplorerUrl = {
   2810: "https://rpc-quicknode-holesky.morphl2.io",
@@ -11,6 +16,7 @@ export default function Home() {
   const [payments, setPayments] = useState(undefined);
   const [sending, setSending] = useState(false);
   const [blockchainExplorer, setBlockchainExplorer] = useState(undefined);
+  const [error, setError] = useState(false);
 
   const sendPayments = async () => {
     // Connect to Metamask
@@ -36,6 +42,11 @@ export default function Home() {
       }
     );
     // Send transaction
+    const maxsenderContract = new Contract(contractAddress, abi, signer);
+    try {
+    } catch (error) {
+      setError(true);
+    }
   };
   return (
     <>
@@ -72,6 +83,9 @@ export default function Home() {
               <div className="alert alert-info mt-4 mb-0">
                 Please wait while your transaction is being processed...
               </div>
+            )}
+            {error && (
+              <div>Oops...there was an error. Please try agaiamn later!</div>
             )}
           </div>
         </div>
