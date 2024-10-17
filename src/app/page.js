@@ -4,7 +4,7 @@ import { Importer, ImporterField } from "react-csv-importer";
 import { ethers, Contract } from "ethers";
 
 // Import Contract ABI
-import { abi } from "../../foundary/out/Maxsender.sol/Maxsender.json";
+import { abi as contractABI } from "../../foundary/out/Maxsender.sol/Maxsender.json";
 
 const contractAddress = "0x279AD96a13998dE7E6511f6F5AB9bD358b1453Ca";
 
@@ -15,16 +15,19 @@ const blockchainExplorerUrl = {
 export default function Home() {
   const [payments, setPayments] = useState(undefined);
   const [sending, setSending] = useState(false);
-  const [blockchainExplorer, setBlockchainExplorer] = useState(undefined);
+  const [blockchainExplorer, setBlockchainExplorer] = useState();
   const [error, setError] = useState(false);
   const [transaction, setTransaction] = useState(false);
 
   const sendPayments = async () => {
     // Connect to Metamask
-    const provider = new ethers.BrowserProvider(windows.ethereum);
+    const provider = new ethers.BrowserProvider(window.ethereum);
     const signer = await provider.getSigner();
-    const { chainID } = await provider.getNetwork();
-    setBlockchainExplorer(blockchainExplorerUrl[chainID.toString()]);
+
+    const chainIdBigInt = (await provider.getNetwork()).chainId;
+    const chainId = Number(chainIdBigInt); // convert to interger;
+
+    setBlockchainExplorer(blockchainExplorerUrl[chainId.toString()]);
 
     // Show feedback to users
     setSending(true);
@@ -43,14 +46,19 @@ export default function Home() {
       }
     );
     // Send transaction
-    const maxsenderContract = new Contract(contractAddress, abi, signer);
+    const maxsenderContract = new Contract(
+      contractAddress,
+      contractABI,
+      signer
+    );
     try {
       const transaction = await maxsenderContract.sendToken(
         recipients,
         amounts,
-        { Value: total }
+        { value: total }
       );
-      const transactionReceipt = await transaction.wait();
+      const transactionReceipt = await transaction.wait(1);
+      console.log(transactionReceipt);
       setTransaction(transactionReceipt.hash);
     } catch (error) {
       console.log(error);
@@ -104,7 +112,7 @@ export default function Home() {
             )}
             {error && (
               <div className="alert alert-danger mt-4 mb-0">
-                Oops...there was an error. Please try agaiamn later!
+                Oops...there was an error. Please try again later!
               </div>
             )}
           </div>
